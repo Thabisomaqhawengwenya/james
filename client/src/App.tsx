@@ -55,11 +55,11 @@ function Workspace() {
             width: 48,
             height: 48,
             borderRadius: 'var(--radius-md)',
-            background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
+            backgroundColor: 'var(--accent-primary)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'white',
+            color: 'var(--text-on-accent)',
             boxShadow: 'var(--shadow-glow)',
           }}
         >
@@ -148,11 +148,11 @@ function Workspace() {
                   width: 56,
                   height: 56,
                   borderRadius: 'var(--radius-lg)',
-                  background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
+                  backgroundColor: 'var(--accent-primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: 'white',
+                  color: 'var(--text-on-accent)',
                   boxShadow: 'var(--shadow-glow)',
                 }}
               >

@@ -49,11 +49,11 @@ export const AuthModal: React.FC = () => {
               width: 48,
               height: 48,
               borderRadius: 'var(--radius-md)',
-              background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
+              backgroundColor: 'var(--accent-primary)',
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: 'white',
+              color: 'var(--text-on-accent)',
               boxShadow: 'var(--shadow-glow)',
               marginBottom: 12,
             }}

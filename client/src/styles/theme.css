@@ -1,50 +1,56 @@
 :root {
-  /* Color Palette - Executive Slate & Obsidian */
-  --bg-primary: #0a0d14;
-  --bg-secondary: #101522;
-  --bg-tertiary: #171f33;
-  --bg-surface: #1e293b;
-  --bg-surface-hover: #26334d;
-  --bg-elevated: #212c42;
+  /* Google Dark & Deep Black Surfaces */
+  --bg-primary: #131314;       /* Google Gemini / Search Dark canvas */
+  --bg-secondary: #1e1f20;     /* Google sidebar & navigation panel */
+  --bg-tertiary: #282a2c;      /* Google container & card surface */
+  --bg-surface: #2d2f31;       /* Google interactive element base */
+  --bg-surface-hover: #37393b; /* Google surface hover */
+  --bg-elevated: #202124;      /* Google modal & floating dialog elevation */
 
-  /* Accent Colors */
-  --accent-primary: #6366f1;
-  --accent-primary-hover: #4f46e5;
-  --accent-glow: rgba(99, 102, 241, 0.25);
-  --accent-secondary: #818cf8;
-  --accent-cyan: #06b6d4;
-  --accent-emerald: #10b981;
-  --accent-amber: #f59e0b;
-  --accent-rose: #f43f5e;
+  /* Google Blue & Brand Accent Colors */
+  --accent-primary: #1a73e8;       /* Iconic Google Blue */
+  --accent-primary-hover: #1b66c9; /* Google Blue hover */
+  --accent-primary-active: #174ea6;/* Google Blue pressed */
+  --accent-secondary: #8ab4f8;     /* Google Dark Mode accessible accent blue */
+  --accent-secondary-hover: #aecbfa;
+  --accent-glow: rgba(66, 133, 244, 0.28);
+  --accent-glow-subtle: rgba(26, 115, 232, 0.12);
+  --accent-blue-surface: rgba(66, 133, 244, 0.14);
 
-  /* Text Colors */
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  /* Google Signature 4-Color Accents */
+  --accent-cyan: #24c1e0;          /* Google Cyan */
+  --accent-emerald: #34a853;       /* Google Green */
+  --accent-amber: #fbbc04;         /* Google Yellow */
+  --accent-rose: #ea4335;          /* Google Red */
+
+  /* Google Dark Text Hierarchy */
+  --text-primary: #f1f3f4;         /* High-emphasis text */
+  --text-secondary: #c4c7c5;       /* Medium-emphasis secondary text */
+  --text-muted: #9aa0a6;           /* Placeholder & helper text */
   --text-on-accent: #ffffff;
 
-  /* Borders & Dividers */
-  --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-strong: rgba(255, 255, 255, 0.14);
-  --border-focus: rgba(99, 102, 241, 0.5);
+  /* Google Dark Borders & Focus Outlines */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-focus: #8ab4f8;         /* Google signature outline focus */
 
   /* Radius */
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-lg: 18px;
   --radius-xl: 24px;
   --radius-full: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 28px -4px rgba(0, 0, 0, 0.65), 0 4px 8px -2px rgba(0, 0, 0, 0.4);
   --shadow-glow: 0 0 20px var(--accent-glow);
 
   /* Typography */
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);

@@ -177,10 +177,10 @@ html, body, #root {
 }
 
 .conversation-item.active {
-  background-color: var(--bg-surface);
-  color: var(--text-primary);
-  border-color: var(--border-subtle);
-  font-weight: 500;
+  background-color: var(--accent-blue-surface);
+  color: var(--accent-secondary);
+  border-color: rgba(138, 180, 248, 0.25);
+  font-weight: 600;
 }
 
 .conv-title {
@@ -314,7 +314,7 @@ html, body, #root {
   height: 60px;
   min-height: 60px;
   border-bottom: 1px solid var(--border-subtle);
-  background-color: rgba(16, 21, 34, 0.7);
+  background-color: rgba(30, 31, 32, 0.8);
   backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
@@ -405,7 +405,7 @@ html, body, #root {
 }
 
 .message-avatar.assistant {
-  background: linear-gradient(135deg, var(--accent-primary), #4338ca);
+  background: linear-gradient(135deg, var(--accent-primary), #174ea6);
   color: white;
   box-shadow: 0 2px 8px var(--accent-glow);
 }
@@ -440,7 +440,7 @@ html, body, #root {
   background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-hover));
   color: white;
   border-top-right-radius: 4px;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 4px 12px var(--accent-glow);
 }
 
 .message-time {
@@ -496,7 +496,7 @@ html, body, #root {
   padding: 4px 12px;
   margin: 0.8em 0;
   color: var(--text-secondary);
-  background-color: rgba(99, 102, 241, 0.05);
+  background-color: var(--accent-glow-subtle);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 .markdown-body a {
@@ -509,7 +509,7 @@ html, body, #root {
   margin: 12px 0;
   border-radius: var(--radius-md);
   overflow: hidden;
-  background-color: #05070c;
+  background-color: #0b0c0e;
   border: 1px solid var(--border-subtle);
 }
 

@@ -110,7 +110,7 @@ export const MemoriesModal: React.FC<MemoriesModalProps> = ({ onClose }) => {
                 width: 32,
                 height: 32,
                 borderRadius: 'var(--radius-sm)',
-                backgroundColor: 'rgba(99, 102, 241, 0.15)',
+                backgroundColor: 'var(--accent-blue-surface)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -227,7 +227,7 @@ export const MemoriesModal: React.FC<MemoriesModalProps> = ({ onClose }) => {
                           textTransform: 'uppercase',
                           padding: '2px 8px',
                           borderRadius: 4,
-                          backgroundColor: 'rgba(99, 102, 241, 0.15)',
+                          backgroundColor: 'var(--accent-blue-surface)',
                           color: 'var(--accent-secondary)',
                           fontWeight: 600,
                         }}

@@ -81,11 +81,11 @@ export const TasksModal: React.FC<TasksModalProps> = ({ onClose }) => {
 
   const getPriorityColor = (p: string) => {
     switch (p) {
-      case 'URGENT': return '#f43f5e';
-      case 'HIGH': return '#f59e0b';
-      case 'MEDIUM': return '#818cf8';
+      case 'URGENT': return 'var(--accent-rose)';
+      case 'HIGH': return 'var(--accent-amber)';
+      case 'MEDIUM': return 'var(--accent-secondary)';
       case 'LOW':
-      default: return '#64748b';
+      default: return 'var(--text-muted)';
     }
   };
 
@@ -103,7 +103,7 @@ export const TasksModal: React.FC<TasksModalProps> = ({ onClose }) => {
                 width: 32,
                 height: 32,
                 borderRadius: 'var(--radius-sm)',
-                backgroundColor: 'rgba(99, 102, 241, 0.15)',
+                backgroundColor: 'var(--accent-blue-surface)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -395,7 +395,7 @@ export const TasksModal: React.FC<TasksModalProps> = ({ onClose }) => {
                         </button>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <span style={{ fontSize: '0.68rem', color: '#10b981', fontWeight: 600 }}>COMPLETED</span>
+                        <span style={{ fontSize: '0.68rem', color: 'var(--accent-emerald)', fontWeight: 600 }}>COMPLETED</span>
                         <button
                           onClick={() => handleUpdateStatus(t.id, 'TODO')}
                           style={{

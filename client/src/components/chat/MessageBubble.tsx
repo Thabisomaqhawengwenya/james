@@ -38,8 +38,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
               alignItems: 'center',
               gap: 8,
               padding: '6px 12px',
-              backgroundColor: 'rgba(99, 102, 241, 0.12)',
-              border: '1px solid rgba(99, 102, 241, 0.3)',
+              backgroundColor: 'var(--accent-blue-surface)',
+              border: '1px solid rgba(138, 180, 248, 0.3)',
               borderRadius: 'var(--radius-md)',
               fontSize: '0.8rem',
               color: 'var(--accent-secondary)',
@@ -77,8 +77,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
                   </span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <CheckCircle2 size={14} color="#10b981" />
-                  <span style={{ color: '#10b981', fontSize: '0.75rem', fontWeight: 600 }}>
+                  <CheckCircle2 size={14} color="var(--accent-emerald)" />
+                  <span style={{ color: 'var(--accent-emerald)', fontSize: '0.75rem', fontWeight: 600 }}>
                     {tc.status}
                   </span>
                 </div>

@@ -31,6 +31,10 @@ dev.db
 **/dev.db
 **/prisma/*.db
 
+# Uploads & Media
+uploads/
+**/uploads/
+
 # Editor & OS files
 .DS_Store
 Thumbs.db

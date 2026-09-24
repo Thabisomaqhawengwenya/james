@@ -7,6 +7,7 @@ import { chatRouter } from './api/chatRouter.js';
 import { tasksRouter } from './api/tasksRouter.js';
 import { memoriesRouter } from './api/memoriesRouter.js';
 import { profileRouter } from './api/profileRouter.js';
+import { uploadRouter, UPLOADS_DIR } from './api/uploadRouter.js';
 
 const app = express();
 
@@ -16,6 +17,9 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
+
+// Serve uploaded media statically
+app.use('/uploads', express.static(UPLOADS_DIR));
 
 // Health Check
 app.get('/api/health', (req: Request, res: Response) => {
@@ -35,6 +39,7 @@ app.use('/api/chat', chatRouter);
 app.use('/api/tasks', tasksRouter);
 app.use('/api/memories', memoriesRouter);
 app.use('/api/profile', profileRouter);
+app.use('/api/upload', uploadRouter);
 
 // Global Error Handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

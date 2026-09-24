@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Copy, Check, Bot, User as UserIcon, Wrench, Brain, CheckCircle2 } from 'lucide-react';
-import { Message } from '../../types';
+import {
+  Copy,
+  Check,
+  Bot,
+  User as UserIcon,
+  Wrench,
+  Brain,
+  CheckCircle2,
+  FileText,
+  FileCode,
+  Download,
+  ExternalLink,
+} from 'lucide-react';
+import { Message, Attachment } from '../../types';
 
 interface MessageBubbleProps {
   message: Message;
@@ -22,6 +34,17 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
     hour: '2-digit',
     minute: '2-digit',
   });
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
+  const isCodeFile = (filename: string): boolean => {
+    const codeExtensions = ['.ts', '.tsx', '.js', '.jsx', '.py', '.html', '.css', '.scss', '.json', '.yaml', '.yml', '.sql', '.sh', '.rs', '.go', '.c', '.cpp', '.java'];
+    return codeExtensions.some((ext) => filename.toLowerCase().endsWith(ext));
+  };
 
   return (
     <div className={`message-wrapper ${message.role}`}>
@@ -87,61 +110,117 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
           </div>
         )}
 
-        <div className={`message-bubble ${message.role}`}>
-          <div className="markdown-body">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              components={{
-                code({ node, inline, className, children, ...props }: any) {
-                  const match = /language-(\w+)/.exec(className || '');
-                  const language = match ? match[1] : 'code';
-                  const codeString = String(children).replace(/\n$/, '');
+        {/* Render Attachments if present */}
+        {message.attachments && message.attachments.length > 0 && (
+          <div className="message-attachments-container">
+            {message.attachments.map((att: Attachment) => {
+              if (att.isImage) {
+                return (
+                  <a
+                    key={att.id}
+                    href={att.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="message-attachment-image-card"
+                    title={`View full image: ${att.originalName}`}
+                  >
+                    <img src={att.url} alt={att.originalName} className="message-attachment-img" />
+                    <div className="message-attachment-overlay">
+                      <span className="message-attachment-filename">{att.originalName}</span>
+                      <ExternalLink size={13} />
+                    </div>
+                  </a>
+                );
+              }
 
-                  if (!inline) {
-                    const codeId = Math.floor(Math.random() * 10000);
-                    return (
-                      <div className="code-block-container">
-                        <div className="code-header">
-                          <span>{language}</span>
-                          <button
-                            className="copy-btn"
-                            onClick={() => handleCopy(codeString, codeId)}
-                            title="Copy Code"
-                          >
-                            {copiedCodeIndex === codeId ? (
-                              <>
-                                <Check size={13} color="#10b981" />
-                                <span style={{ color: '#10b981' }}>Copied</span>
-                              </>
-                            ) : (
-                              <>
-                                <Copy size={13} />
-                                <span>Copy</span>
-                              </>
-                            )}
-                          </button>
-                        </div>
-                        <pre>
-                          <code className={className} {...props}>
-                            {children}
-                          </code>
-                        </pre>
-                      </div>
-                    );
-                  }
-
-                  return (
-                    <code className="inline-code" {...props}>
-                      {children}
-                    </code>
-                  );
-                },
-              }}
-            >
-              {message.content}
-            </ReactMarkdown>
+              return (
+                <a
+                  key={att.id}
+                  href={att.url}
+                  download={att.originalName}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="message-attachment-file-card"
+                  title={`Download ${att.originalName}`}
+                >
+                  <div className="message-attachment-file-icon">
+                    {isCodeFile(att.originalName) ? (
+                      <FileCode size={20} color="var(--accent-primary)" />
+                    ) : (
+                      <FileText size={20} color="var(--accent-secondary)" />
+                    )}
+                  </div>
+                  <div className="message-attachment-file-meta">
+                    <span className="file-card-title">{att.originalName}</span>
+                    <span className="file-card-size">{formatFileSize(att.size)}</span>
+                  </div>
+                  <div className="message-attachment-action-icon">
+                    <Download size={14} />
+                  </div>
+                </a>
+              );
+            })}
           </div>
-        </div>
+        )}
+
+        {/* Message Bubble Content */}
+        {message.content && (
+          <div className={`message-bubble ${message.role}`}>
+            <div className="markdown-body">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  code({ node, inline, className, children, ...props }: any) {
+                    const match = /language-(\w+)/.exec(className || '');
+                    const language = match ? match[1] : 'code';
+                    const codeString = String(children).replace(/\n$/, '');
+
+                    if (!inline) {
+                      const codeId = Math.floor(Math.random() * 10000);
+                      return (
+                        <div className="code-block-container">
+                          <div className="code-header">
+                            <span>{language}</span>
+                            <button
+                              className="copy-btn"
+                              onClick={() => handleCopy(codeString, codeId)}
+                              title="Copy Code"
+                            >
+                              {copiedCodeIndex === codeId ? (
+                                <>
+                                  <Check size={13} color="#10b981" />
+                                  <span style={{ color: '#10b981' }}>Copied</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy size={13} />
+                                  <span>Copy</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+                          <pre>
+                            <code className={className} {...props}>
+                              {children}
+                            </code>
+                          </pre>
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <code className="inline-code" {...props}>
+                        {children}
+                      </code>
+                    );
+                  },
+                }}
+              >
+                {message.content}
+              </ReactMarkdown>
+            </div>
+          </div>
+        )}
 
         <span className="message-time">{formattedTime}</span>
       </div>

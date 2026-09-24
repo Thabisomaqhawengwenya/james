@@ -35,11 +35,23 @@ export interface SavedMemoryMeta {
   isUpdate: boolean;
 }
 
+export interface Attachment {
+  id: string;
+  filename: string;
+  originalName: string;
+  mimeType: string;
+  size: number;
+  url: string;
+  isImage: boolean;
+  textContent?: string;
+}
+
 export interface Message {
   id: string;
   conversationId: string;
   role: 'user' | 'assistant' | 'system';
   content: string;
+  attachments?: Attachment[];
   createdAt: string;
   toolCalls?: ToolCall[];
   savedMemory?: SavedMemoryMeta;

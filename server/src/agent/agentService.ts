@@ -11,6 +11,7 @@ export interface ProcessChatParams {
   userId: string;
   conversationId: string;
   content: string;
+  attachments?: any[];
   providerOverride?: string;
   apiKeyOverride?: string;
   baseUrlOverride?: string;
@@ -22,6 +23,7 @@ export async function processChatMessage(params: ProcessChatParams) {
     userId,
     conversationId,
     content,
+    attachments,
     providerOverride,
     apiKeyOverride,
     baseUrlOverride,
@@ -66,6 +68,7 @@ export async function processChatMessage(params: ProcessChatParams) {
       conversationId,
       role: 'user',
       content,
+      attachments: attachments && attachments.length > 0 ? JSON.stringify(attachments) : null,
     },
   });
 
@@ -110,11 +113,43 @@ export async function processChatMessage(params: ProcessChatParams) {
   });
 
   // 7. Prepare message history for AI Provider
-  const history: AIMessage[] = conversation.messages.map((m) => ({
-    role: m.role as 'user' | 'assistant' | 'system',
-    content: m.content,
-  }));
-  history.push({ role: 'user', content });
+  const history: AIMessage[] = conversation.messages.map((m) => {
+    let msgText = m.content;
+    if (m.attachments) {
+      try {
+        const attList = JSON.parse(m.attachments);
+        const fileNames = attList.map((a: any) => a.originalName).join(', ');
+        if (fileNames) {
+          msgText += `\n[Attached: ${fileNames}]`;
+        }
+      } catch (e) {}
+    }
+    return {
+      role: m.role as 'user' | 'assistant' | 'system',
+      content: msgText,
+    };
+  });
+
+  // Enrich current prompt with attached text/document contents
+  let promptContent = content;
+  if (attachments && attachments.length > 0) {
+    const textAttachments = attachments.filter((a: any) => a.textContent);
+    if (textAttachments.length > 0) {
+      promptContent += '\n\n--- ATTACHED DOCUMENTS & CODE FILES ---';
+      for (const att of textAttachments) {
+        promptContent += `\n\n[File: ${att.originalName} (${att.mimeType})]:\n\`\`\`\n${att.textContent}\n\`\`\``;
+      }
+    }
+    const imageAttachments = attachments.filter((a: any) => a.isImage);
+    if (imageAttachments.length > 0) {
+      promptContent += '\n\n--- ATTACHED IMAGES ---';
+      for (const img of imageAttachments) {
+        promptContent += `\n[Image: ${img.originalName} (${img.url})]`;
+      }
+    }
+  }
+
+  history.push({ role: 'user', content: promptContent });
 
   // 8. If tool was executed, pass context to AI or generate transparent response
   const aiProvider = getAIProvider(providerOverride, apiKeyOverride, baseUrlOverride, modelOverride);
@@ -201,7 +236,10 @@ export async function processChatMessage(params: ProcessChatParams) {
   }
 
   return {
-    userMessage,
+    userMessage: {
+      ...userMessage,
+      attachments: attachments || [],
+    },
     assistantMessage: {
       ...assistantMessage,
       toolCalls: persistedToolCalls,

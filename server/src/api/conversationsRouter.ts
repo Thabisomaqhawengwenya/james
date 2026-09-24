@@ -91,7 +91,15 @@ router.get('/:id', async (req: Request, res: Response) => {
       return;
     }
 
-    res.json({ conversation });
+    const formattedConversation = {
+      ...conversation,
+      messages: conversation.messages.map((m) => ({
+        ...m,
+        attachments: m.attachments ? JSON.parse(m.attachments) : [],
+      })),
+    };
+
+    res.json({ conversation: formattedConversation });
   } catch (error: any) {
     res.status(500).json({ error: error.message || 'Failed to fetch conversation' });
   }

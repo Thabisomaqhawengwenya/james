@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Conversation, Message } from '../types';
+import { Conversation, Message, Attachment } from '../types';
 import { api } from '../services/api';
 import { useAuth } from './AuthContext';
 
@@ -24,7 +24,7 @@ interface ChatContextType {
   setModelName: (m: string) => void;
   createNewConversation: () => Promise<string | null>;
   selectConversation: (id: string) => Promise<void>;
-  sendMessage: (content: string) => Promise<void>;
+  sendMessage: (content: string, attachments?: Attachment[]) => Promise<void>;
   renameConversation: (id: string, title: string) => Promise<void>;
   deleteConversation: (id: string) => Promise<void>;
   clearError: () => void;
@@ -143,8 +143,9 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const sendMessage = async (content: string) => {
-    if (!content.trim() || isSending) return;
+  const sendMessage = async (content: string, attachments?: Attachment[]) => {
+    const trimmedContent = (content || '').trim();
+    if ((!trimmedContent && (!attachments || attachments.length === 0)) || isSending) return;
     setError(null);
 
     let targetConvId = activeConversationId;
@@ -158,7 +159,8 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       id: `temp-${Date.now()}`,
       conversationId: targetConvId,
       role: 'user',
-      content: content.trim(),
+      content: trimmedContent,
+      attachments: attachments && attachments.length > 0 ? attachments : undefined,
       createdAt: new Date().toISOString(),
     };
 
@@ -168,7 +170,8 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     try {
       const res = await api.chat.sendMessage({
         conversationId: targetConvId,
-        content: content.trim(),
+        content: trimmedContent,
+        attachments,
         provider: provider !== 'default' ? provider : undefined,
         apiKey: apiKey || undefined,
         baseUrl: baseUrl || undefined,

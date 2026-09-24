@@ -85,11 +85,24 @@ export const api = {
       }),
   },
 
+  // Upload
+  upload: {
+    files: (files: File[]) => {
+      const formData = new FormData();
+      files.forEach((file) => formData.append('files', file));
+      return request<{ attachments: import('../types').Attachment[] }>('/upload', {
+        method: 'POST',
+        body: formData,
+      });
+    },
+  },
+
   // Chat
   chat: {
     sendMessage: (data: {
       conversationId: string;
       content: string;
+      attachments?: import('../types').Attachment[];
       provider?: string;
       apiKey?: string;
       baseUrl?: string;

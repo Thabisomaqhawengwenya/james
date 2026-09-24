@@ -59,6 +59,7 @@ model Message {
   conversationId String
   role           String      // "user" | "assistant" | "system"
   content        String
+  attachments    String?     // Serialized JSON of Array<Attachment>
   createdAt      DateTime    @default(now())
 
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)

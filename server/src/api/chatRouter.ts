@@ -8,17 +8,18 @@ router.use(requireAuth);
 router.post('/', async (req: Request, res: Response) => {
   try {
     const userId = req.user!.id;
-    const { conversationId, content, provider, apiKey, baseUrl, model } = req.body;
+    const { conversationId, content, attachments, provider, apiKey, baseUrl, model } = req.body;
 
-    if (!conversationId || !content || !content.trim()) {
-      res.status(400).json({ error: 'conversationId and content are required.' });
+    if (!conversationId || (!content && (!attachments || attachments.length === 0))) {
+      res.status(400).json({ error: 'conversationId and content or attachments are required.' });
       return;
     }
 
     const result = await processChatMessage({
       userId,
       conversationId,
-      content: content.trim(),
+      content: (content || '').trim(),
+      attachments: attachments || [],
       providerOverride: provider,
       apiKeyOverride: apiKey,
       baseUrlOverride: baseUrl,
